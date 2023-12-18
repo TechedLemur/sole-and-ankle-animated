@@ -1,17 +1,21 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import styled from 'styled-components/macro';
-import { DialogOverlay, DialogContent } from '@reach/dialog';
+import React from "react";
+import styled, { keyframes } from "styled-components/macro";
+import { DialogOverlay, DialogContent } from "@reach/dialog";
 
-import { QUERIES, WEIGHTS } from '../../constants';
+import { QUERIES, WEIGHTS } from "../../constants";
 
-import UnstyledButton from '../UnstyledButton';
-import Icon from '../Icon';
-import VisuallyHidden from '../VisuallyHidden';
+import UnstyledButton from "../UnstyledButton";
+import Icon from "../Icon";
+import VisuallyHidden from "../VisuallyHidden";
 
 const MobileMenu = ({ isOpen, onDismiss }) => {
   return (
-    <Overlay isOpen={isOpen} onDismiss={onDismiss}>
+    <Overlay
+      isOpen={isOpen}
+      onDismiss={onDismiss}
+      // style={{ "--opacity": isOpen ? "100%" : "0%" }}
+    >
       <Content aria-label="Menu">
         <CloseButton onClick={onDismiss}>
           <Icon id="close" />
@@ -36,6 +40,25 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    filter: opacity(0%);
+  }
+  
+  to {
+    filter: opacity(100%);
+  }
+`;
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%)
+  }
+  
+  to {
+    transform: translateX(0%)
+  }
+`;
+
 const Overlay = styled(DialogOverlay)`
   position: fixed;
   top: 0;
@@ -45,6 +68,9 @@ const Overlay = styled(DialogOverlay)`
   background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+  /* filter: opacity(var(--opacity)); */
+  /* transition: filter 300ms; */
+  animation: ${fadeIn} 250ms;
 `;
 
 const Content = styled(DialogContent)`
@@ -54,6 +80,7 @@ const Content = styled(DialogContent)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  animation: ${slideIn} 500ms;
 `;
 
 const CloseButton = styled(UnstyledButton)`
@@ -67,6 +94,7 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  animation: ${fadeIn} 1500ms;
 `;
 
 const NavLink = styled.a`
@@ -90,6 +118,7 @@ const Footer = styled.footer`
   flex-direction: column;
   gap: 14px;
   justify-content: flex-end;
+  animation: ${fadeIn} 1700ms;
 `;
 
 const SubLink = styled.a`

@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
-import Spacer from '../Spacer';
+import { WEIGHTS } from "../../constants";
+import { formatPrice, pluralize, isNewShoe } from "../../utils";
+import Spacer from "../Spacer";
 
 const ShoeCard = ({
   slug,
@@ -35,31 +35,29 @@ const ShoeCard = ({
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          <Image alt="" src={imageSrc} />
-          {variant === 'on-sale' && <SaleFlag>Sale</SaleFlag>}
-          {variant === 'new-release' && (
-            <NewFlag>Just released!</NewFlag>
-          )}
+          <ShoeImageWrapper>
+            <Image alt="" src={imageSrc} />
+          </ShoeImageWrapper>
+          {variant === "on-sale" && <SaleFlag>Sale</SaleFlag>}
+          {variant === "new-release" && <NewFlag>Just released!</NewFlag>}
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
           <Price
             style={{
-              '--color':
-                variant === 'on-sale'
-                  ? 'var(--color-gray-700)'
-                  : undefined,
-              '--text-decoration':
-                variant === 'on-sale' ? 'line-through' : undefined,
+              "--color":
+                variant === "on-sale" ? "var(--color-gray-700)" : undefined,
+              "--text-decoration":
+                variant === "on-sale" ? "line-through" : undefined,
             }}
           >
             {formatPrice(price)}
           </Price>
         </Row>
         <Row>
-          <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
-          {variant === 'on-sale' ? (
+          <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" ? (
             <SalePrice>{formatPrice(salePrice)}</SalePrice>
           ) : undefined}
         </Row>
@@ -78,10 +76,21 @@ const Wrapper = styled.article``;
 const ImageWrapper = styled.div`
   position: relative;
 `;
-
-const Image = styled.img`
-  width: 100%;
+const ShoeImageWrapper = styled.div`
+  overflow: hidden;
   border-radius: 16px 16px 4px 4px;
+  &:hover > img {
+    transform: scale(1.1);
+    transition: transform 200ms;
+    transform-origin: 50% 75%;
+  }
+`;
+const Image = styled.img`
+  display: block;
+  transition: transform 500ms;
+  width: 100%;
+  will-change: transform;
+  /* border-radius: 16px 16px 4px 4px; */
 `;
 
 const Row = styled.div`

@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React, { Children } from "react";
+import styled from "styled-components/macro";
 
-import { QUERIES, WEIGHTS } from '../../constants';
-import Logo from '../Logo';
-import Icon from '../Icon';
-import UnstyledButton from '../UnstyledButton';
-import SuperHeader from '../SuperHeader';
-import MobileMenu from '../MobileMenu';
-import VisuallyHidden from '../VisuallyHidden';
+import { QUERIES, WEIGHTS } from "../../constants";
+import Logo from "../Logo";
+import Icon from "../Icon";
+import UnstyledButton from "../UnstyledButton";
+import SuperHeader from "../SuperHeader";
+import MobileMenu from "../MobileMenu";
+import VisuallyHidden from "../VisuallyHidden";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -51,6 +51,42 @@ const Header = () => {
     </header>
   );
 };
+
+const NavLink = ({ children, ...delegated }) => {
+  return (
+    <NavLinkWrapper {...delegated}>
+      {/* {children} */}
+      <NormalLink>{children}</NormalLink>
+      <BoldLink>{children}</BoldLink>
+    </NavLinkWrapper>
+  );
+};
+
+const NavLinkWrapper = styled.a`
+  position: relative;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--color-gray-900);
+  font-weight: ${WEIGHTS.medium};
+  overflow: hidden;
+
+  &:first-of-type {
+    color: var(--color-secondary);
+  }
+`;
+const NormalLink = styled.div`
+  transition: transform 250ms;
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    ${NavLinkWrapper}:hover > & {
+      transform: translateY(-100%);
+    }
+  }
+`;
+const BoldLink = styled(NormalLink)`
+  position: absolute;
+  font-weight: bold;
+`;
 
 const MainHeader = styled.div`
   display: flex;
@@ -111,18 +147,6 @@ const Filler = styled.div`
 
   @media ${QUERIES.tabletAndSmaller} {
     display: none;
-  }
-`;
-
-const NavLink = styled.a`
-  font-size: 1.125rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--color-gray-900);
-  font-weight: ${WEIGHTS.medium};
-
-  &:first-of-type {
-    color: var(--color-secondary);
   }
 `;
 
